@@ -53,7 +53,7 @@ export function AgeSelect({ onSelect }: { onSelect: (g: AgeGroup) => void }) {
               <div className="absolute inset-0 bg-nova-glow opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               <div className="relative flex flex-col gap-4">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-metallic shadow-nova">
-                  <Icon className="h-6 w-6 text-[oklch(0.12_0.04_265)]" />
+                  <Icon className="h-6 w-6 text-background" />
                 </div>
                 <div>
                   <p className="font-mono-nova text-[10px] uppercase tracking-[0.3em] text-primary">{g.range}</p>

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { NovaProvider } from "@/lib/nova-context";
 import { StarsBackground } from "@/components/StarsBackground";
+import { LilyDecor } from "@/components/LilyDecor";
 import { MatrixLoader } from "@/components/MatrixLoader";
 import { TopBar } from "@/components/TopBar";
 import { AgeSelect, type AgeGroup } from "@/components/nova/AgeSelect";
@@ -52,6 +53,7 @@ function NovaApp() {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       {stage !== "loader" && <StarsBackground />}
+      {stage !== "loader" && <LilyDecor />}
       {stage !== "loader" && <TopBar onBack={showBack ? back : undefined} />}
 
       {stage === "loader" && <MatrixLoader onDone={() => setStage("gender")} />}
