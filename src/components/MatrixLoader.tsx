@@ -53,11 +53,11 @@ export function MatrixLoader({ onDone }: { onDone: () => void }) {
         {columns.map((c) => (
           <div
             key={c.id}
-            className="absolute top-0 font-mono-nova text-xs leading-tight whitespace-pre text-[oklch(0.82_0.15_78)]"
+            className="absolute top-0 font-mono-nova text-xs leading-tight whitespace-pre text-[oklch(0.78_0.16_240)]"
             style={{
               left: `${c.left}%`,
               animation: `matrix-fall ${c.duration}s linear ${c.delay}s infinite`,
-              textShadow: "0 0 8px oklch(0.82 0.15 78 / 0.8)",
+              textShadow: "0 0 8px oklch(0.78 0.16 240 / 0.85)",
             }}
           >
             {c.chars}
@@ -83,7 +83,7 @@ export function MatrixLoader({ onDone }: { onDone: () => void }) {
             style={{ width: `${progress * 100}%` }}
           />
         </div>
-        <p className="font-mono-nova text-xs uppercase tracking-[0.4em] text-[oklch(0.82_0.15_78)]">
+        <p className="font-mono-nova text-xs uppercase tracking-[0.4em] text-[oklch(0.78_0.16_240)]">
           {Math.round(progress * 100)}%
         </p>
       </div>

@@ -31,7 +31,7 @@ export function TopicPrompt({
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-8 px-6 py-24 animate-float-up">
       <div className="flex flex-col items-center gap-4 text-center">
-        <AsterAvatar size={72} />
+        <AsterAvatar size={110} mood="thinking" />
         <p className="font-mono-nova text-xs uppercase tracking-[0.5em] text-primary">
           {t("أستر يستمع…", "Aster is listening…")}
         </p>

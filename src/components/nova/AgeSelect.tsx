@@ -25,7 +25,7 @@ export function AgeSelect({ onSelect }: { onSelect: (g: AgeGroup) => void }) {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-10 px-6 py-24 animate-float-up">
       <div className="flex flex-col items-center gap-4 text-center">
-        <AsterAvatar size={88} />
+        <AsterAvatar size={120} mood="happy" />
         <p className="font-mono-nova text-xs uppercase tracking-[0.5em] text-primary">
           {t("أستر", "Aster")} · AI
         </p>

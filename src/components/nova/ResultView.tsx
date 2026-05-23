@@ -64,7 +64,7 @@ export function ResultView({
     return (
       <div className="mx-auto w-full max-w-3xl px-6 py-24 animate-float-up">
         <div className="mb-8 flex items-center gap-4">
-          <AsterAvatar size={64} />
+          <AsterAvatar size={96} mood="happy" />
           <div>
             <p className="font-mono-nova text-[10px] uppercase tracking-[0.4em] text-primary">
               {t("شرحٌ من أستر", "Aster · Explanation")}
@@ -101,6 +101,13 @@ function Game({ topic, quiz }: { topic: string; quiz: Quiz[] }) {
   const [done, setDone] = useState(false);
 
   const current = quiz[step];
+  const mood = done
+    ? "excited"
+    : picked === null
+      ? "thinking"
+      : picked === current.answer
+        ? "happy"
+        : "calm";
 
   const next = () => {
     if (picked === null) return;
@@ -120,7 +127,7 @@ function Game({ topic, quiz }: { topic: string; quiz: Quiz[] }) {
   return (
     <div className="mx-auto w-full max-w-2xl px-6 py-24 animate-float-up">
       <div className="mb-8 flex items-center gap-4">
-        <AsterAvatar size={64} />
+        <AsterAvatar size={96} mood={mood} />
         <div>
           <p className="font-mono-nova text-[10px] uppercase tracking-[0.4em] text-primary">
             {t("لعبتك التعليميّة", "Your learning game")}
