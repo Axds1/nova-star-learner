@@ -150,7 +150,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
       <div className="mx-auto w-full max-w-2xl px-6 py-32 text-center">
         <AsterAvatar size={96} mood="sad" />
         <p className="mt-6 font-arabic text-lg text-destructive">{err}</p>
-        <button onClick={fetchQuiz} className="mt-6 rounded-full bg-metallic px-6 py-3 font-arabic text-sm text-[oklch(0.12_0.04_265)] shadow-nova">
+        <button onClick={fetchQuiz} className="mt-6 rounded-full bg-metallic px-6 py-3 font-arabic text-sm text-background shadow-nova">
           {t("حاول مجدداً", "Try again")}
         </button>
       </div>
@@ -204,7 +204,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
           </p>
           <button
             onClick={reset}
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-metallic px-6 py-3 font-arabic text-sm text-[oklch(0.12_0.04_265)] shadow-nova transition hover:scale-105"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-metallic px-6 py-3 font-arabic text-sm text-background shadow-nova transition hover:scale-105"
           >
             <RotateCcw className="h-4 w-4" />
             {t("لعبة جديدة", "New game")}
