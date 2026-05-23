@@ -5,6 +5,7 @@ import { StarsBackground } from "@/components/StarsBackground";
 import { MatrixLoader } from "@/components/MatrixLoader";
 import { TopBar } from "@/components/TopBar";
 import { AgeSelect, type AgeGroup } from "@/components/nova/AgeSelect";
+import { GenderSelect } from "@/components/nova/GenderSelect";
 import { TopicPrompt, type Mode } from "@/components/nova/TopicPrompt";
 import { ResultView } from "@/components/nova/ResultView";
 
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Stage = "loader" | "age" | "topic" | "result";
+type Stage = "loader" | "gender" | "age" | "topic" | "result";
 
 function Index() {
   return (
@@ -43,16 +44,19 @@ function NovaApp() {
   const back = () => {
     if (stage === "result") setStage("topic");
     else if (stage === "topic") setStage("age");
+    else if (stage === "age") setStage("gender");
   };
 
-  const showBack = stage === "topic" || stage === "result";
+  const showBack = stage === "age" || stage === "topic" || stage === "result";
 
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       {stage !== "loader" && <StarsBackground />}
       {stage !== "loader" && <TopBar onBack={showBack ? back : undefined} />}
 
-      {stage === "loader" && <MatrixLoader onDone={() => setStage("age")} />}
+      {stage === "loader" && <MatrixLoader onDone={() => setStage("gender")} />}
+
+      {stage === "gender" && <GenderSelect onSelect={() => setStage("age")} />}
 
       {stage === "age" && (
         <AgeSelect
