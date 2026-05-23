@@ -1,26 +1,82 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { NovaProvider } from "@/lib/nova-context";
+import { StarsBackground } from "@/components/StarsBackground";
+import { MatrixLoader } from "@/components/MatrixLoader";
+import { TopBar } from "@/components/TopBar";
+import { AgeSelect, type AgeGroup } from "@/components/nova/AgeSelect";
+import { TopicPrompt, type Mode } from "@/components/nova/TopicPrompt";
+import { ResultView } from "@/components/nova/ResultView";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "نوفا — Nova · تعلّم تفاعلي مع أستر" },
+      {
+        name: "description",
+        content:
+          "نوفا منصة تعليمية تفاعلية بالواقع الافتراضي والمعزز، مع المساعد الذكي أستر باللغة العربية.",
+      },
+      { property: "og:title", content: "نوفا — Nova" },
+      { property: "og:description", content: "تعلّم تفاعلي يجمع الوسائط والـ VR/AR مع المساعد الذكي أستر." },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+type Stage = "loader" | "age" | "topic" | "result";
+
+function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <NovaProvider>
+      <NovaApp />
+    </NovaProvider>
   );
 }
 
-function Index() {
-  return <PlaceholderIndex />;
+function NovaApp() {
+  const [stage, setStage] = useState<Stage>("loader");
+  const [age, setAge] = useState<AgeGroup | null>(null);
+  const [topic, setTopic] = useState<string>("");
+  const [mode, setMode] = useState<Mode>("explain");
+
+  const back = () => {
+    if (stage === "result") setStage("topic");
+    else if (stage === "topic") setStage("age");
+  };
+
+  const showBack = stage === "topic" || stage === "result";
+
+  return (
+    <div className="relative min-h-screen overflow-x-hidden">
+      {stage !== "loader" && <StarsBackground />}
+      {stage !== "loader" && <TopBar onBack={showBack ? back : undefined} />}
+
+      {stage === "loader" && <MatrixLoader onDone={() => setStage("age")} />}
+
+      {stage === "age" && (
+        <AgeSelect
+          onSelect={(g) => {
+            setAge(g);
+            setStage("topic");
+          }}
+        />
+      )}
+
+      {stage === "topic" && age && (
+        <TopicPrompt
+          age={age}
+          onSubmit={(tp, md) => {
+            setTopic(tp);
+            setMode(md);
+            setStage("result");
+          }}
+        />
+      )}
+
+      {stage === "result" && age && (
+        <ResultView topic={topic} age={age} mode={mode} />
+      )}
+    </div>
+  );
 }
