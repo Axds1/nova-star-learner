@@ -54,7 +54,7 @@ function Explanation({ topic, age }: { topic: string; age: AgeGroup }) {
             <p className="font-mono-nova text-[10px] uppercase tracking-[0.4em] text-primary">
               {t("شرحٌ من أستر", "Aster · Explanation")}
             </p>
-          <h2 dir={lang === "ar" ? "rtl" : "ltr"} className="font-arabic text-3xl text-metallic">{topic}</h2>
+          <h2 dir={lang === "ar" ? "rtl" : "ltr"} className="font-arabic-display text-5xl text-metallic">{topic}</h2>
           </div>
         </div>
 
@@ -179,7 +179,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
             <p className="font-mono-nova text-[10px] uppercase tracking-[0.4em] text-primary">
               {t("لعبتك التعليميّة", "Your learning game")}
             </p>
-            <h2 dir={lang === "ar" ? "rtl" : "ltr"} className="font-arabic text-2xl text-metallic">{topic}</h2>
+            <h2 dir={lang === "ar" ? "rtl" : "ltr"} className="font-arabic-display text-4xl text-metallic">{topic}</h2>
           </div>
         </div>
         <div className="flex flex-col items-end gap-1 text-sm">
@@ -198,7 +198,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
       {done ? (
         <div className="rounded-3xl glass-card p-10 text-center shadow-soft">
           <AsterAvatar size={120} mood={lives > 0 ? "excited" : "sad"} />
-          <h3 className="font-arabic text-3xl text-metallic">
+          <h3 className="font-arabic-display text-5xl text-metallic">
             {lives > 0 ? t("أحسنت! 🎉", "Well done! 🎉") : t("حظ أوفر! 💧", "Better luck next time!")}
           </h3>
           <p className="mt-2 font-arabic text-lg text-muted-foreground">

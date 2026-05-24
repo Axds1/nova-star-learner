@@ -16,7 +16,7 @@ export function GenderSelect({ onSelect }: { onSelect: (g: Gender) => void }) {
         <p className="font-mono-nova text-xs uppercase tracking-[0.5em] text-primary">
           {t("أستر", "Aster")} · AI
         </p>
-        <h1 className="font-arabic text-4xl sm:text-5xl text-metallic leading-tight">
+        <h1 className="font-arabic-display text-6xl sm:text-7xl text-metallic leading-tight">
           {t("قبل أن نبدأ…", "Before we begin…")}
         </h1>
         <p className="max-w-md font-arabic text-base sm:text-lg text-muted-foreground">

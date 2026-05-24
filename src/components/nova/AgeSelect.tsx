@@ -29,7 +29,7 @@ export function AgeSelect({ onSelect }: { onSelect: (g: AgeGroup) => void }) {
         <p className="font-mono-nova text-xs uppercase tracking-[0.5em] text-primary">
           {t("أستر", "Aster")} · AI
         </p>
-        <h1 className="font-arabic text-4xl sm:text-5xl md:text-6xl text-metallic leading-tight">
+        <h1 className="font-arabic-display text-6xl sm:text-7xl md:text-8xl text-metallic leading-tight">
           {t("مرحباً بك في نوفا", "Welcome to Nova")}
         </h1>
         <p className="max-w-xl font-arabic text-base sm:text-lg text-muted-foreground">

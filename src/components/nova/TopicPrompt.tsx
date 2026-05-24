@@ -35,7 +35,7 @@ export function TopicPrompt({
         <p className="font-mono-nova text-xs uppercase tracking-[0.5em] text-primary">
           {t("أستر يستمع…", "Aster is listening…")}
         </p>
-        <h2 className="font-arabic text-3xl sm:text-5xl text-metallic leading-tight">
+        <h2 className="font-arabic-display text-5xl sm:text-7xl text-metallic leading-tight">
           {t("ماذا تودّ أن تتعلّم اليوم؟", "What would you like to learn today?")}
         </h2>
       </div>
@@ -47,7 +47,7 @@ export function TopicPrompt({
           rows={3}
           dir={lang === "ar" ? "rtl" : "ltr"}
           placeholder={t("اكتب موضوعك… مثل: المجموعة الشمسية", "Type a topic… e.g. Solar System")}
-          className="w-full resize-none rounded-2xl bg-transparent p-5 font-arabic text-lg outline-none placeholder:text-muted-foreground/60"
+          className="w-full resize-none rounded-2xl bg-transparent p-5 font-arabic text-lg outline-none placeholder:text-muted-foreground"
         />
       </div>
 
@@ -59,7 +59,7 @@ export function TopicPrompt({
           <button
             key={s}
             onClick={() => setTopic(s)}
-            className="rounded-full border border-primary/30 bg-secondary/30 px-4 py-1.5 font-arabic text-sm text-foreground/80 transition hover:border-primary hover:bg-secondary/60"
+            className="rounded-full border border-primary/30 bg-secondary/30 px-4 py-1.5 font-arabic text-sm text-foreground transition hover:border-primary hover:bg-secondary/60"
           >
             <Sparkles className="me-1 inline h-3 w-3 text-primary" />
             {s}
