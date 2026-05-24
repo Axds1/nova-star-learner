@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { installContrastAudit } from "@/lib/contrast-audit";
 
 type Theme = "dark" | "light";
 type Lang = "ar" | "en";
@@ -27,6 +28,10 @@ export function NovaProvider({ children }: { children: ReactNode }) {
     root.lang = lang;
     root.dir = lang === "ar" ? "rtl" : "ltr";
   }, [theme, lang]);
+
+  useEffect(() => {
+    installContrastAudit();
+  }, []);
 
   const value: NovaCtx = {
     theme,
