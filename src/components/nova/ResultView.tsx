@@ -33,6 +33,7 @@ function Explanation({ topic, age }: { topic: string; age: AgeGroup }) {
   const { t, lang, gender } = useNova();
   const explain = useServerFn(explainTopic);
   const [paragraphs, setParagraphs] = useState<string[] | null>(null);
+  const [aiLang, setAiLang] = useState<"ar" | "en">(lang);
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ function Explanation({ topic, age }: { topic: string; age: AgeGroup }) {
     setParagraphs(null);
     setErr(null);
     explain({ data: { topic, age, gender: gender ?? "male", lang } })
-      .then((r) => { if (!cancel) setParagraphs(r.paragraphs); })
+      .then((r) => { if (!cancel) { setParagraphs(r.paragraphs); setAiLang(r.lang); } })
       .catch((e) => { if (!cancel) setErr(String(e.message || e)); });
     return () => { cancel = true; };
   }, [topic, age, gender, lang, explain]);
@@ -72,8 +73,8 @@ function Explanation({ topic, age }: { topic: string; age: AgeGroup }) {
         {paragraphs?.map((p, i) => (
             <p
               key={i}
-            dir={lang === "ar" ? "rtl" : "ltr"}
-              className="font-arabic text-lg leading-loose text-foreground/90 animate-float-up"
+            dir={aiLang === "ar" ? "rtl" : "ltr"}
+              className={`${aiLang === "ar" ? "font-arabic" : "font-display"} text-lg leading-loose text-foreground animate-float-up`}
               style={{ animationDelay: `${i * 120}ms` }}
             >
               <Sparkles className="me-2 inline h-4 w-4 text-primary" />
@@ -103,7 +104,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
   const fetchQuiz = () => {
     setQuiz(null); setErr(null);
     gen({ data: { topic, age, gender: gender ?? "male", lang } })
-      .then((r) => setQuiz(r.questions))
+      .then((r) => { setQuiz(r.questions); setQuizLang(r.lang); })
       .catch((e) => setErr(String(e.message || e)));
   };
   useEffect(fetchQuiz, [topic, age, gender, lang]);
