@@ -4,8 +4,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Fonts: flowing Arabic + luxurious English */
-@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+/* Fonts: flowing Arabic (Markazi for display, IBM Plex Sans Arabic for body) + luxurious English */
+@import url("https://fonts.googleapis.com/css2?family=Markazi+Text:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
 
 /*
  * Design system definition.
@@ -66,7 +66,8 @@
   --color-nova-platinum: var(--nova-platinum);
   --color-nova-deep: var(--nova-deep);
   --font-display: "Outfit", "Space Grotesk", system-ui, sans-serif;
-  --font-arabic: "Tajawal", "Outfit", system-ui, sans-serif;
+  --font-arabic: "IBM Plex Sans Arabic", "Outfit", system-ui, sans-serif;
+  --font-arabic-display: "Markazi Text", "IBM Plex Sans Arabic", serif;
   --font-mono: "JetBrains Mono", "Space Grotesk", monospace;
 }
 
@@ -84,7 +85,7 @@
   --secondary: oklch(0.88 0.05 235);
   --secondary-foreground: oklch(0.2 0.08 252);
   --muted: oklch(0.9 0.03 235);
-  --muted-foreground: oklch(0.42 0.07 250);
+  --muted-foreground: oklch(0.36 0.08 250);
   --accent: oklch(0.72 0.16 232);
   --accent-foreground: oklch(0.15 0.07 252);
   --destructive: oklch(0.6 0.22 27);
@@ -132,7 +133,7 @@
   --secondary: oklch(0.24 0.12 256);
   --secondary-foreground: oklch(0.98 0.015 232);
   --muted: oklch(0.2 0.09 258);
-  --muted-foreground: oklch(0.82 0.06 235);
+  --muted-foreground: oklch(0.86 0.05 235);
   --accent: oklch(0.78 0.24 230);
   --accent-foreground: oklch(0.1 0.07 260);
   --destructive: oklch(0.65 0.22 22);
@@ -184,6 +185,7 @@
 
 @layer utilities {
   .font-arabic { font-family: var(--font-arabic); }
+  .font-arabic-display { font-family: var(--font-arabic-display); letter-spacing: 0; line-height: 1.1; }
   .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
   .font-mono-nova { font-family: var(--font-mono); }
 
@@ -246,7 +248,7 @@
     100% { transform: translateY(100vh); opacity: 0; }
   }
 
-  /* Aster ghost-like floating + blinking */
+  /* Aster ghost-like floating (no body blink) */
   @keyframes ghost-float {
     0%   { transform: translate3d(0, 0, 0) rotate(-1deg); }
     25%  { transform: translate3d(-6px, -10px, 0) rotate(1.5deg); }
@@ -255,25 +257,6 @@
     100% { transform: translate3d(0, 0, 0) rotate(-1deg); }
   }
   .animate-ghost-float { animation: ghost-float 6s ease-in-out infinite; }
-
-  @keyframes aster-blink {
-    0%, 92%, 100% { transform: scaleY(1); }
-    95%, 97%      { transform: scaleY(0.05); }
-  }
-  .animate-aster-blink {
-    transform-origin: center;
-    animation: aster-blink 4.5s ease-in-out infinite;
-  }
-
-  /* Eye-only blink: a thin lid that sweeps across the eye band */
-  @keyframes eye-lid {
-    0%, 92%, 100% { transform: scaleY(0); opacity: 0; }
-    94%, 96%      { transform: scaleY(1); opacity: 0.92; }
-  }
-  .animate-eye-lid {
-    transform-origin: center;
-    animation: eye-lid 4.2s ease-in-out infinite;
-  }
 
   @keyframes excited-bounce {
     0%, 100% { transform: translateY(0) scale(1); }
@@ -327,8 +310,6 @@
     .animate-lily-sway,
     .animate-lily-glow,
     .animate-ghost-float,
-    .animate-aster-blink,
-    .animate-eye-lid,
     .animate-excited-bounce,
     .animate-thinking-tilt,
     .animate-sad-sway,
