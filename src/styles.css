@@ -300,4 +300,43 @@
     50%      { opacity: 0.95; transform: scale(1.15); }
   }
   .animate-aura-pulse { animation: aura-pulse 2.8s ease-in-out infinite; }
+
+  /* Lily decor animations */
+  @keyframes lily-sway-light {
+    0%, 100% { transform: translateX(0) rotate( 0deg ); }
+    20%      { transform: translateX(2px) rotate( 0.6deg ); }
+    40%      { transform: translateX(-1px) rotate(-0.4deg ); }
+    60%      { transform: translateX(1.5px) rotate( 0.3deg ); }
+    80%      { transform: translateX(-0.5px) rotate(-0.2deg ); }
+  }
+  @keyframes lily-glow-dark {
+    0%, 100% { opacity: 0.55; filter: brightness(1); }
+    50%      { opacity: 0.88; filter: brightness(1.25); }
+  }
+  .animate-lily-sway {
+    animation: lily-sway-light 7s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  .animate-lily-glow {
+    animation: lily-glow-dark 5s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  /* Respect prefers-reduced-motion for all decorative animations */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-lily-sway,
+    .animate-lily-glow,
+    .animate-ghost-float,
+    .animate-aster-blink,
+    .animate-eye-lid,
+    .animate-excited-bounce,
+    .animate-thinking-tilt,
+    .animate-sad-sway,
+    .animate-aura-pulse,
+    .animate-nova-pulse,
+    .animate-spin-slow,
+    .animate-twinkle {
+      animation: none !important;
+    }
+  }
 }

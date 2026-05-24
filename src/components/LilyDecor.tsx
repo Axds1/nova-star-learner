@@ -13,6 +13,7 @@ export function LilyDecor() {
   const sideClass = lang === "ar" ? "right-0" : "left-0";
   const flipClass = lang === "ar" ? "" : "scale-x-[-1]";
   const blend = theme === "dark" ? "mix-blend-screen" : "mix-blend-multiply";
+  const motionAnim = theme === "dark" ? "animate-lily-glow" : "animate-lily-sway";
 
   return (
     <div
@@ -23,7 +24,7 @@ export function LilyDecor() {
       <img
         src={src}
         alt=""
-        className={`h-full w-full object-cover object-center opacity-70 ${blend} ${flipClass}`}
+        className={`h-full w-full object-cover object-center opacity-70 ${blend} ${flipClass} ${motionAnim}`}
         style={{
           maskImage:
             "linear-gradient(to right, black 0%, black 55%, transparent 100%)",
