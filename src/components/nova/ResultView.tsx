@@ -33,6 +33,7 @@ function Explanation({ topic, age }: { topic: string; age: AgeGroup }) {
   const { t, lang, gender } = useNova();
   const explain = useServerFn(explainTopic);
   const [paragraphs, setParagraphs] = useState<string[] | null>(null);
+  const [aiLang, setAiLang] = useState<"ar" | "en">(lang);
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ function Explanation({ topic, age }: { topic: string; age: AgeGroup }) {
     setParagraphs(null);
     setErr(null);
     explain({ data: { topic, age, gender: gender ?? "male", lang } })
-      .then((r) => { if (!cancel) setParagraphs(r.paragraphs); })
+      .then((r) => { if (!cancel) { setParagraphs(r.paragraphs); setAiLang(r.lang); } })
       .catch((e) => { if (!cancel) setErr(String(e.message || e)); });
     return () => { cancel = true; };
   }, [topic, age, gender, lang, explain]);
@@ -53,7 +54,7 @@ function Explanation({ topic, age }: { topic: string; age: AgeGroup }) {
             <p className="font-mono-nova text-[10px] uppercase tracking-[0.4em] text-primary">
               {t("شرحٌ من أستر", "Aster · Explanation")}
             </p>
-          <h2 dir={lang === "ar" ? "rtl" : "ltr"} className="font-arabic text-3xl text-metallic">{topic}</h2>
+          <h2 dir={lang === "ar" ? "rtl" : "ltr"} className="font-arabic-display text-5xl text-metallic">{topic}</h2>
           </div>
         </div>
 
@@ -72,8 +73,8 @@ function Explanation({ topic, age }: { topic: string; age: AgeGroup }) {
         {paragraphs?.map((p, i) => (
             <p
               key={i}
-            dir={lang === "ar" ? "rtl" : "ltr"}
-              className="font-arabic text-lg leading-loose text-foreground/90 animate-float-up"
+            dir={aiLang === "ar" ? "rtl" : "ltr"}
+              className={`${aiLang === "ar" ? "font-arabic" : "font-display"} text-lg leading-loose text-foreground animate-float-up`}
               style={{ animationDelay: `${i * 120}ms` }}
             >
               <Sparkles className="me-2 inline h-4 w-4 text-primary" />
@@ -89,6 +90,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
   const { t, lang, gender } = useNova();
   const gen = useServerFn(generateQuiz);
   const [quiz, setQuiz] = useState<QuizQ[] | null>(null);
+  const [quizLang, setQuizLang] = useState<"ar" | "en">(lang);
   const [err, setErr] = useState<string | null>(null);
   const [step, setStep] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
@@ -103,7 +105,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
   const fetchQuiz = () => {
     setQuiz(null); setErr(null);
     gen({ data: { topic, age, gender: gender ?? "male", lang } })
-      .then((r) => setQuiz(r.questions))
+      .then((r) => { setQuiz(r.questions); setQuizLang(r.lang); })
       .catch((e) => setErr(String(e.message || e)));
   };
   useEffect(fetchQuiz, [topic, age, gender, lang]);
@@ -177,7 +179,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
             <p className="font-mono-nova text-[10px] uppercase tracking-[0.4em] text-primary">
               {t("لعبتك التعليميّة", "Your learning game")}
             </p>
-            <h2 dir={lang === "ar" ? "rtl" : "ltr"} className="font-arabic text-2xl text-metallic">{topic}</h2>
+            <h2 dir={lang === "ar" ? "rtl" : "ltr"} className="font-arabic-display text-4xl text-metallic">{topic}</h2>
           </div>
         </div>
         <div className="flex flex-col items-end gap-1 text-sm">
@@ -196,7 +198,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
       {done ? (
         <div className="rounded-3xl glass-card p-10 text-center shadow-soft">
           <AsterAvatar size={120} mood={lives > 0 ? "excited" : "sad"} />
-          <h3 className="font-arabic text-3xl text-metallic">
+          <h3 className="font-arabic-display text-5xl text-metallic">
             {lives > 0 ? t("أحسنت! 🎉", "Well done! 🎉") : t("حظ أوفر! 💧", "Better luck next time!")}
           </h3>
           <p className="mt-2 font-arabic text-lg text-muted-foreground">
@@ -223,7 +225,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
               />
             </div>
           </div>
-          <p dir={lang === "ar" ? "rtl" : "ltr"} className="mb-6 font-arabic text-2xl leading-relaxed">
+          <p dir={quizLang === "ar" ? "rtl" : "ltr"} className={`mb-6 ${quizLang === "ar" ? "font-arabic" : "font-display"} text-2xl leading-relaxed text-foreground`}>
             {current.q}
           </p>
           <div className="grid gap-3">
@@ -236,7 +238,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
                   key={i}
                   onClick={() => pick(i)}
                   disabled={picked !== null}
-                  className={`flex items-center justify-between gap-3 rounded-2xl border px-5 py-4 text-start font-arabic text-lg transition disabled:cursor-not-allowed ${
+                  className={`flex items-center justify-between gap-3 rounded-2xl border px-5 py-4 text-start ${quizLang === "ar" ? "font-arabic" : "font-display"} text-lg transition disabled:cursor-not-allowed ${
                     isCorrect
                       ? "border-primary bg-primary/15"
                       : isWrong
@@ -267,7 +269,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
             </span>
           </div>
           {showHint && (
-            <p dir={lang === "ar" ? "rtl" : "ltr"} className="mt-4 rounded-2xl border border-accent/30 bg-accent/10 p-4 font-arabic text-sm">
+            <p dir={quizLang === "ar" ? "rtl" : "ltr"} className={`mt-4 rounded-2xl border border-accent/30 bg-accent/10 p-4 ${quizLang === "ar" ? "font-arabic" : "font-display"} text-sm`}>
               <Lightbulb className="me-2 inline h-4 w-4 text-accent" />
               {current.hint}
             </p>

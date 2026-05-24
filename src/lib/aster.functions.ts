@@ -7,6 +7,18 @@ type AgeGroup = "child" | "teen" | "adult" | "senior";
 type Gender = "male" | "female";
 type Lang = "ar" | "en";
 
+// Auto-detect language from the topic text. If user writes English, Aster replies in English.
+// Falls back to the UI language preference when text is ambiguous.
+function detectLang(text: string, fallback: Lang): Lang {
+  const arabic = (text.match(/[\u0600-\u06FF]/g) || []).length;
+  const latin  = (text.match(/[A-Za-z]/g) || []).length;
+  if (arabic === 0 && latin > 0) return "en";
+  if (latin === 0 && arabic > 0) return "ar";
+  if (arabic >= latin) return "ar";
+  if (latin > arabic) return "en";
+  return fallback;
+}
+
 function audience(age: AgeGroup, gender: Gender, lang: Lang) {
   const g = lang === "ar"
     ? gender === "male" ? "ذكر" : "أنثى"
@@ -35,7 +47,8 @@ async function callAI(body: unknown) {
 export const explainTopic = createServerFn({ method: "POST" })
   .inputValidator((d: { topic: string; age: AgeGroup; gender: Gender; lang: Lang }) => d)
   .handler(async ({ data }) => {
-    const { topic, age, gender, lang } = data;
+    const { topic, age, gender } = data;
+    const lang = detectLang(topic, data.lang);
     const sys = lang === "ar"
       ? `أنت "أستر"، مساعد ذكاء اصطناعي ودود متخصص في التعليم التفاعلي عبر منصة "نوفا". اشرح المفاهيم بلغة عربية فصحى انسيابية، مع تشبيهات من الفضاء والنجوم. خاطب الجمهور حسب فئته العمرية وجنسه. اجعل الشرح ممتعاً، واضحاً، ومقسّماً إلى 4-6 فقرات قصيرة. لا تستخدم Markdown، أرجع نصاً عادياً فقط، كل فقرة في سطر مستقل.`
       : `You are "Aster", a friendly AI teaching companion for the Nova platform. Explain concepts in a flowing, captivating way with cosmic metaphors. Tailor language to the audience. 4-6 short paragraphs, plain text, one per line, no markdown.`;
@@ -48,13 +61,14 @@ export const explainTopic = createServerFn({ method: "POST" })
     });
     const text: string = json.choices?.[0]?.message?.content ?? "";
     const paragraphs = text.split(/\n+/).map((s) => s.trim()).filter(Boolean).slice(0, 8);
-    return { paragraphs };
+    return { paragraphs, lang };
   });
 
 export const generateQuiz = createServerFn({ method: "POST" })
   .inputValidator((d: { topic: string; age: AgeGroup; gender: Gender; lang: Lang }) => d)
   .handler(async ({ data }) => {
-    const { topic, age, gender, lang } = data;
+    const { topic, age, gender } = data;
+    const lang = detectLang(topic, data.lang);
     const sys = lang === "ar"
       ? `أنت "أستر" مولّد ألعاب تعليمية. أنشئ اختباراً ممتعاً ومتدرّج الصعوبة عن الموضوع المعطى، مناسباً للفئة المستهدفة.`
       : `You are "Aster", an educational quiz generator. Produce a fun, progressively challenging quiz suited to the audience.`;
@@ -103,5 +117,5 @@ export const generateQuiz = createServerFn({ method: "POST" })
     const parsed = JSON.parse(args) as {
       questions: { q: string; options: string[]; answer: number; hint: string }[];
     };
-    return parsed;
+    return { ...parsed, lang };
   });
