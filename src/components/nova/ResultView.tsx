@@ -90,6 +90,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
   const { t, lang, gender } = useNova();
   const gen = useServerFn(generateQuiz);
   const [quiz, setQuiz] = useState<QuizQ[] | null>(null);
+  const [quizLang, setQuizLang] = useState<"ar" | "en">(lang);
   const [err, setErr] = useState<string | null>(null);
   const [step, setStep] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
@@ -224,7 +225,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
               />
             </div>
           </div>
-          <p dir={lang === "ar" ? "rtl" : "ltr"} className="mb-6 font-arabic text-2xl leading-relaxed">
+          <p dir={quizLang === "ar" ? "rtl" : "ltr"} className={`mb-6 ${quizLang === "ar" ? "font-arabic" : "font-display"} text-2xl leading-relaxed text-foreground`}>
             {current.q}
           </p>
           <div className="grid gap-3">
@@ -237,7 +238,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
                   key={i}
                   onClick={() => pick(i)}
                   disabled={picked !== null}
-                  className={`flex items-center justify-between gap-3 rounded-2xl border px-5 py-4 text-start font-arabic text-lg transition disabled:cursor-not-allowed ${
+                  className={`flex items-center justify-between gap-3 rounded-2xl border px-5 py-4 text-start ${quizLang === "ar" ? "font-arabic" : "font-display"} text-lg transition disabled:cursor-not-allowed ${
                     isCorrect
                       ? "border-primary bg-primary/15"
                       : isWrong
@@ -268,7 +269,7 @@ function Game({ topic, age }: { topic: string; age: AgeGroup }) {
             </span>
           </div>
           {showHint && (
-            <p dir={lang === "ar" ? "rtl" : "ltr"} className="mt-4 rounded-2xl border border-accent/30 bg-accent/10 p-4 font-arabic text-sm">
+            <p dir={quizLang === "ar" ? "rtl" : "ltr"} className={`mt-4 rounded-2xl border border-accent/30 bg-accent/10 p-4 ${quizLang === "ar" ? "font-arabic" : "font-display"} text-sm`}>
               <Lightbulb className="me-2 inline h-4 w-4 text-accent" />
               {current.hint}
             </p>
