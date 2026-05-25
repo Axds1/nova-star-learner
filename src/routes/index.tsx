@@ -83,6 +83,16 @@ function NovaApp() {
       {stage === "result" && age && (
         <ResultView topic={topic} age={age} mode={mode} />
       )}
+div[class*="lovable"], 
+div[id*="lovable"],
+a[href*="lovable.dev"],
+[id^="lovable-"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
     </div>
   );
 }
+
