@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /* Fonts: flowing Arabic (Markazi for display, IBM Plex Sans Arabic for body) + luxurious English */
-@import url("https://fonts.googleapis.com/css2?family=Markazi+Text:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Instrument+Serif&family=Geist:wght@400;500;600;700&family=Reem+Kufi+Fun:wght@500;600;700&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
 
 /*
  * Design system definition.
@@ -65,10 +65,11 @@
   --color-nova-gold: var(--nova-gold);
   --color-nova-platinum: var(--nova-platinum);
   --color-nova-deep: var(--nova-deep);
-  --font-display: "Outfit", "Space Grotesk", system-ui, sans-serif;
-  --font-arabic: "IBM Plex Sans Arabic", "Outfit", system-ui, sans-serif;
-  --font-arabic-display: "Markazi Text", "IBM Plex Sans Arabic", serif;
-  --font-mono: "JetBrains Mono", "Space Grotesk", monospace;
+  --font-display: "Fraunces", "Instrument Serif", Georgia, serif;
+  --font-sans: "Geist", "Inter", system-ui, sans-serif;
+  --font-arabic: "Tajawal", "Geist", system-ui, sans-serif;
+  --font-arabic-display: "Reem Kufi Fun", "Tajawal", serif;
+  --font-mono: "JetBrains Mono", monospace;
 }
 
 :root {
@@ -179,14 +180,15 @@
 
   html[lang="en"] body,
   :lang(en) {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
   }
 }
 
 @layer utilities {
   .font-arabic { font-family: var(--font-arabic); }
   .font-arabic-display { font-family: var(--font-arabic-display); letter-spacing: 0; line-height: 1.1; }
-  .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+  .font-display { font-family: var(--font-display); letter-spacing: -0.015em; font-optical-sizing: auto; }
+  .font-sans-nova { font-family: var(--font-sans); letter-spacing: -0.01em; }
   .font-mono-nova { font-family: var(--font-mono); }
 
   .text-metallic {
@@ -305,24 +307,35 @@
     transform-origin: center;
   }
 
-  /* Vertical lily: visible side-to-side drift with gentle sway */
-  @keyframes lily-drift {
-    0%   { transform: translateX(-50%) rotate(-3deg); }
-    25%  { transform: translateX(calc(-50% - 28px)) rotate(2deg); }
-    50%  { transform: translateX(-50%) rotate(-2deg); }
-    75%  { transform: translateX(calc(-50% + 28px)) rotate(3deg); }
-    100% { transform: translateX(-50%) rotate(-3deg); }
+  /* Corner lilies: visible drifting motion */
+  @keyframes lily-float-tl {
+    0%, 100% { transform: translate(0, 0) rotate(-2deg); }
+    25%      { transform: translate(14px, 8px) rotate(1.5deg); }
+    50%      { transform: translate(8px, 18px) rotate(-1deg); }
+    75%      { transform: translate(-6px, 10px) rotate(2deg); }
   }
-  .animate-lily-drift {
-    animation: lily-drift 8s ease-in-out infinite;
-    transform-origin: bottom center;
+  @keyframes lily-float-br {
+    0%, 100% { transform: translate(0, 0) rotate(2deg); }
+    25%      { transform: translate(-12px, -10px) rotate(-1.5deg); }
+    50%      { transform: translate(-6px, -18px) rotate(1deg); }
+    75%      { transform: translate(10px, -8px) rotate(-2deg); }
+  }
+  .animate-lily-float-tl {
+    animation: lily-float-tl 9s ease-in-out infinite;
+    transform-origin: top left;
+  }
+  .animate-lily-float-br {
+    animation: lily-float-br 10s ease-in-out infinite;
+    animation-delay: 1.5s;
+    transform-origin: bottom right;
   }
 
   /* Respect prefers-reduced-motion for all decorative animations */
   @media (prefers-reduced-motion: reduce) {
     .animate-lily-sway,
     .animate-lily-glow,
-    .animate-lily-drift,
+    .animate-lily-float-tl,
+    .animate-lily-float-br,
     .animate-ghost-float,
     .animate-excited-bounce,
     .animate-thinking-tilt,
