@@ -7,23 +7,38 @@ import lilyArt from "@/assets/lily-blue.png";
  */
 export function LilyDecor() {
   const { theme } = useNova();
-  // The PNG has transparent background with watercolor lilies in two corners.
-  // Light mode: gentle multiply for soft pastel feel.
-  // Dark mode: screen blend + brightness boost so the blue glows on dark bg.
   const blend = theme === "dark" ? "mix-blend-screen" : "mix-blend-multiply";
   const motionAnim = theme === "dark" ? "animate-lily-glow" : "animate-lily-sway";
-  const opacity = theme === "dark" ? 0.85 : 0.7;
+  const opacity = theme === "dark" ? 0.9 : 0.75;
+  const size = "min(34vw, 440px)";
 
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed inset-x-0 bottom-0 z-0 flex justify-center"
-    >
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
+      {/* Left side — crop the left half of the source art */}
       <img
         src={lilyArt}
         alt=""
-        className={`w-full max-w-[1600px] object-contain object-bottom ${blend} ${motionAnim}`}
-        style={{ opacity, height: "min(60vh, 520px)" }}
+        className={`absolute left-0 bottom-0 object-contain object-left-bottom ${blend} ${motionAnim}`}
+        style={{
+          width: size,
+          height: size,
+          opacity,
+          objectPosition: "left bottom",
+        }}
+      />
+      {/* Right side — mirror so flowers face inward */}
+      <img
+        src={lilyArt}
+        alt=""
+        className={`absolute right-0 bottom-0 object-contain ${blend} ${motionAnim}`}
+        style={{
+          width: size,
+          height: size,
+          opacity,
+          objectPosition: "right bottom",
+          transform: "scaleX(-1)",
+          animationDelay: "1.2s",
+        }}
       />
     </div>
   );
