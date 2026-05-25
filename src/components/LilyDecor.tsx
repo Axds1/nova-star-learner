@@ -12,17 +12,30 @@ export function LilyDecor() {
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      {/* Single tall vertical lily, gently drifting side to side */}
+      {/* Top-left lily: gentle drift + sway */}
       <img
         src={lilyArt}
         alt=""
-        className={`absolute left-1/2 bottom-0 object-contain object-bottom ${blend} animate-lily-drift`}
+        className={`absolute -top-6 -left-10 object-contain ${blend} animate-lily-float-tl`}
         style={{
-          width: "min(38vh, 280px)",
-          height: "min(95vh, 880px)",
+          width: "min(46vw, 520px)",
+          height: "auto",
           opacity,
-          transform: "translateX(-50%)",
-          transformOrigin: "bottom center",
+          objectPosition: "top left",
+          clipPath: "inset(0 0 55% 0)",
+        }}
+      />
+      {/* Bottom-right lily: opposite drift */}
+      <img
+        src={lilyArt}
+        alt=""
+        className={`absolute -bottom-8 -right-10 object-contain ${blend} animate-lily-float-br`}
+        style={{
+          width: "min(40vw, 460px)",
+          height: "auto",
+          opacity,
+          objectPosition: "bottom right",
+          clipPath: "inset(55% 0 0 0)",
         }}
       />
     </div>
