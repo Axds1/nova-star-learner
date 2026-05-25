@@ -1,46 +1,29 @@
 import { useNova } from "@/lib/nova-context";
-import whiteLily from "@/assets/lily-white.jpeg";
-import blueLily from "@/assets/lily-blue.jpeg";
+import lilyArt from "@/assets/lily-blue.png";
 
 /**
  * Decorative lily border — white lilies for light mode,
  * blue lilies for dark mode. Inspired by the project poster.
  */
 export function LilyDecor() {
-  const { theme, lang } = useNova();
-  const src = theme === "dark" ? blueLily : whiteLily;
-  // Place on the leading edge of the layout (right in RTL, left in LTR)
-  const sideClass = lang === "ar" ? "right-0" : "left-0";
-  const flipClass = lang === "ar" ? "" : "scale-x-[-1]";
+  const { theme } = useNova();
+  // The PNG has transparent background with watercolor lilies in two corners.
+  // Light mode: gentle multiply for soft pastel feel.
+  // Dark mode: screen blend + brightness boost so the blue glows on dark bg.
   const blend = theme === "dark" ? "mix-blend-screen" : "mix-blend-multiply";
   const motionAnim = theme === "dark" ? "animate-lily-glow" : "animate-lily-sway";
+  const opacity = theme === "dark" ? 0.85 : 0.7;
 
   return (
     <div
       aria-hidden
-      className={`pointer-events-none fixed inset-y-0 ${sideClass} z-0 hidden md:block`}
-      style={{ width: "min(28vw, 360px)" }}
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-0 flex justify-center"
     >
       <img
-        src={src}
+        src={lilyArt}
         alt=""
-        className={`h-full w-full object-cover object-center opacity-70 ${blend} ${flipClass} ${motionAnim}`}
-        style={{
-          maskImage:
-            "linear-gradient(to right, black 0%, black 55%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to right, black 0%, black 55%, transparent 100%)",
-        }}
-      />
-      {/* Mobile / narrow: soft bottom strip so the motif still reads */}
-      <img
-        src={src}
-        alt=""
-        className={`fixed inset-x-0 bottom-0 h-24 w-full object-cover opacity-50 md:hidden ${blend}`}
-        style={{
-          maskImage: "linear-gradient(to top, black 0%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to top, black 0%, transparent 100%)",
-        }}
+        className={`w-full max-w-[1600px] object-contain object-bottom ${blend} ${motionAnim}`}
+        style={{ opacity, height: "min(60vh, 520px)" }}
       />
     </div>
   );
