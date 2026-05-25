@@ -74,7 +74,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Nova I نوفا" },
       { name: "description", content: "Nova is an interactive learning platform using VR/AR and AI to simplify complex concepts for all ages." },
-      { name: "author", content: "Lovable" },
       { property: "og:title", content: "Nova I نوفا" },
       { property: "og:description", content: "Nova is an interactive learning platform using VR/AR and AI to simplify complex concepts for all ages." },
       { property: "og:type", content: "website" },
