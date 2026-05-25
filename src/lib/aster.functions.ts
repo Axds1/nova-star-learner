@@ -1,23 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
+import { detectLang, type Lang } from "./lang-detect";
 
 const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const MODEL = "google/gemini-3-flash-preview";
 
 type AgeGroup = "child" | "teen" | "adult" | "senior";
 type Gender = "male" | "female";
-type Lang = "ar" | "en";
-
-// Auto-detect language from the topic text. If user writes English, Aster replies in English.
-// Falls back to the UI language preference when text is ambiguous.
-function detectLang(text: string, fallback: Lang): Lang {
-  const arabic = (text.match(/[\u0600-\u06FF]/g) || []).length;
-  const latin  = (text.match(/[A-Za-z]/g) || []).length;
-  if (arabic === 0 && latin > 0) return "en";
-  if (latin === 0 && arabic > 0) return "ar";
-  if (arabic >= latin) return "ar";
-  if (latin > arabic) return "en";
-  return fallback;
-}
 
 function audience(age: AgeGroup, gender: Gender, lang: Lang) {
   const g = lang === "ar"
