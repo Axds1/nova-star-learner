@@ -105,6 +105,15 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <Scripts />
+div[class*="lovable"], 
+div[id*="lovable"],
+a[href*="lovable.dev"],
+[id^="lovable-"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}   
       </body>
     </html>
   );
